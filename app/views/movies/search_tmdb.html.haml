@@ -1,0 +1,20 @@
+%h1 The following movies containing '#{@search_name}' were found in TMDb
+  
+= form_tag movies_add_tmdb_path, method: 'post' do
+  %table#movies
+    %thead
+      %tr
+        %th{:class => @title_header}= link_to 'Movie Title', movies_path(:sort => 'title', :ratings => @selected_ratings), :id => 'title_header'
+        %th Rating
+        %th{:class => @date_header}= link_to 'Release Date', movies_path(:sort => 'release_date', :ratings => @selected_ratings), :id => 'release_date_header'
+        %th Select
+    %tbody
+      - @movies.each do |movie|
+        %tr
+          %td= movie["title"] 
+          %td= movie["rating"]
+          %td= movie["release_date"]
+          %td= check_box_tag "tmdb_movies[#{movie["id"]}]", nil, nil, :id => "checkbox_#{movie["id"]}"
+  = submit_tag 'Add Selected Movies',:id => 'movies_button'
+
+= link_to 'Return to Movie List', movies_path
